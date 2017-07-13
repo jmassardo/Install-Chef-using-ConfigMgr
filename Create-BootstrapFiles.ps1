@@ -86,5 +86,8 @@ else{
     # now that the file exists, populate it!
     Create-FirstBootFile
 }
+# Add a randomized delay to keep large deployments from overloading the Chef Server
+Start-Sleep -Seconds $(Get-Random -Minimum 60 -Maximum 3600)
+
 # Last but not least, copy the validator file from the SCCM cache directory into the $ChefRootDir with the other files
 Copy-Item -Path "$PSScriptRoot\$ValidatorName.pem" -Destination $ChefRootDir
