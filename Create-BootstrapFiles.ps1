@@ -89,5 +89,8 @@ else{
 # Add a randomized delay to keep large deployments from overloading the Chef Server
 Start-Sleep -Seconds $(Get-Random -Minimum 60 -Maximum 3600)
 
+# Add hack so the script will run in PS 2.0 and higher ($PSScriptRoot isn't a thing in PS2.0 so this will use the old way to get the path)
+if(!$PSScriptRoot){ $PSScriptRoot = Split-Path $MyInvocation.MyCommand.Path -Parent }
+
 # Last but not least, copy the validator file from the SCCM cache directory into the $ChefRootDir with the other files
 Copy-Item -Path "$PSScriptRoot\$ValidatorName.pem" -Destination $ChefRootDir
